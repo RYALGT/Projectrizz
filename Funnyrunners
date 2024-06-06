@@ -5,13 +5,60 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Funny Runners Admin</title>
     <style>
-        body { font-family: Arial, sans-serif; }
-        .container { width: 300px; margin: 50px auto; }
-        .form-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; }
-        input[type="text"], input[type="password"], input[type="number"], button { width: 100%; padding: 10px; }
-        button { background-color: #4CAF50; color: white; border: none; cursor: pointer; }
-        button:hover { background-color: #45a049; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+            text-align: left;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        input[type="text"], input[type="password"], input[type="number"], select, button {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            padding: 10px 20px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .hidden {
+            display: none;
+        }
     </style>
 </head>
 <body>
@@ -24,7 +71,7 @@
         <button onclick="checkPassword()">Login</button>
     </div>
     
-    <div id="admin-form" style="display:none;">
+    <div id="admin-form" class="hidden">
         <div class="form-group">
             <label for="titleId">PlayFab Title ID</label>
             <input type="text" id="titleId" required>
@@ -55,7 +102,7 @@
             </div>
             <button onclick="banPlayer()">Ban Player</button>
         </div>
-        <div id="grant-fields" style="display:none;">
+        <div id="grant-fields" class="hidden">
             <div class="form-group">
                 <label for="grantPlayerId">Player's PlayFab ID</label>
                 <input type="text" id="grantPlayerId" required>
@@ -73,8 +120,8 @@
     function checkPassword() {
         const password = document.getElementById('password').value;
         if (password === 'your_password_here') {
-            document.getElementById('login-form').style.display = 'none';
-            document.getElementById('admin-form').style.display = 'block';
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('admin-form').classList.remove('hidden');
         } else {
             alert('Incorrect password!');
         }
@@ -83,11 +130,11 @@
     function toggleFields() {
         const action = document.getElementById('action').value;
         if (action === 'ban') {
-            document.getElementById('ban-fields').style.display = 'block';
-            document.getElementById('grant-fields').style.display = 'none';
+            document.getElementById('ban-fields').classList.remove('hidden');
+            document.getElementById('grant-fields').classList.add('hidden');
         } else {
-            document.getElementById('ban-fields').style.display = 'none';
-            document.getElementById('grant-fields').style.display = 'block';
+            document.getElementById('ban-fields').classList.add('hidden');
+            document.getElementById('grant-fields').classList.remove('hidden');
         }
     }
 
@@ -185,14 +232,4 @@
                 body: JSON.stringify(payload)
             });
             if (response.status === 204) {
-                console.log("Notification sent to Discord webhook successfully.");
-            } else {
-                console.error("Failed to send notification to Discord webhook. Status code:", response.status);
-            }
-        } catch (error) {
-            console.error('Error:', error);
-        }
-    }
-
-    async function sendCosmeticNotification(grantingPerson, playerId, cosmeticItemId) {
-        const webhook_url = "https://discord.com/api/webhooks/1246509407936974909/sKZzat7_I3Nhugs_cD68XqFNq
+                console.log("Notification sent to
